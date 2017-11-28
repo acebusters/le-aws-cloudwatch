@@ -1,5 +1,6 @@
 import logging
 import json
+import yaml
 import gzip
 import socket
 import ssl
@@ -37,7 +38,9 @@ def lambda_handler(event, context):
         for log_event in log_events['logEvents']:
             # look for extracted fields, if not present, send plain message
             try:
-                sock.sendall('{} {}\n'.format(TOKEN, json.dumps(log_event['extractedFields'])))
+                data = yaml.load(log_event['extractedFields']['event'].replace("'", "\"").replace("\n", ""))
+                data['request_id'] = log_event['extractedFields']['request_id']
+                sock.sendall('{} {}\n'.format(TOKEN, json.dumps(data)))
             except KeyError:
                 sock.sendall('{} {}\n'.format(TOKEN, treat_message(log_event['message'])))
 

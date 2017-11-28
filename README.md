@@ -1,6 +1,17 @@
 # le-aws-cloudwatch
 ##### AWS Lambda function for sending AWS CloudWatch logs to Logentries in near real-time for processing and analysing
 
+## Acebusters fork changes
+
+The code fitted to stream logs from AWS Lambda in JSON format.
+
+Install with:
+
+```
+zip -r lambda.zip certifi/ yaml/ le_cloudwatch.py
+aws lambda update-function-code --function-name cloudwatch-to-logentries --zip-file fileb://lambda.zip --region eu-west-1
+```
+
 ###### Example use cases:
 * Forwarding AWS VPC flow Logs
 * Forwarding AWS Lambda function logs
